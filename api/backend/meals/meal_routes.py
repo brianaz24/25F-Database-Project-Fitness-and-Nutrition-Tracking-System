@@ -1,8 +1,28 @@
 from flask import Blueprint, jsonify, request
 from backend.db_connection import db as db_connection
+from datetime import datetime, date, time, timedelta
+import decimal
 
 def get_db():
     return db_connection.get_db().cursor()
+
+def serialize_row(row):
+    """Convert database row to JSON-serializable dict"""
+    if row is None:
+        return None
+    result = {}
+    for key, value in row.items():
+        if isinstance(value, (datetime, date)):
+            result[key] = value.isoformat() if value else None
+        elif isinstance(value, time):
+            result[key] = str(value) if value else None
+        elif isinstance(value, timedelta):
+            result[key] = str(value) if value else None
+        elif isinstance(value, decimal.Decimal):
+            result[key] = float(value) if value is not None else None
+        else:
+            result[key] = value
+    return result
 
 meals = Blueprint("meals", __name__)
 
@@ -19,7 +39,8 @@ def get_meal(meal_id):
         error = "Meal not found"
     
     if error is None:
-        return jsonify(meal), 200
+        serialized_meal = serialize_row(meal)
+        return jsonify(serialized_meal), 200
     
     return jsonify({"error": error}), 404
 
