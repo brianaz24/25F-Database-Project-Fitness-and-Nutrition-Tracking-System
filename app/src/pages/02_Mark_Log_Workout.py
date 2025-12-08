@@ -12,6 +12,7 @@ SideBarLinks()
 st.title("Record a Workout")
 
 user_id = st.session_state.get('user_id', 1)
+API_BASE = "http://web-api:4000"
 
 with st.form("log_workout_form"):
     st.subheader("Workout Information")
@@ -42,10 +43,9 @@ with st.form("log_workout_form"):
                 
                 if response.status_code == 201:
                     result = response.json()
+                    st.session_state['workout_logged'] = True
                     st.success(f"Workout recorded successfully!")
                     st.balloons()
-                    if st.button("Record Another Workout", use_container_width=True):
-                        st.rerun()
                 else:
                     error_msg = response.json().get('error', 'Unknown error')
                     st.error(f"Failed to record workout: {error_msg}")
@@ -53,6 +53,12 @@ with st.form("log_workout_form"):
             except requests.exceptions.RequestException as e:
                 st.error(f"Error connecting to the API: {str(e)}")
                 st.info("Please ensure the API server is running")
+
+# Show "Record Another Workout" button outside the form
+if st.session_state.get('workout_logged', False):
+    if st.button("Record Another Workout", use_container_width=True):
+        st.session_state['workout_logged'] = False
+        st.rerun()
 
 if st.button("← Back to Home", use_container_width=True):
     st.switch_page('pages/00_Mark_Home.py')
