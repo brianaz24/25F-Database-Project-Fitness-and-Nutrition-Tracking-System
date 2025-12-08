@@ -12,6 +12,7 @@ SideBarLinks()
 st.title("Record a Workout")
 
 user_id = st.session_state.get('user_id', 1)
+API_BASE = "http://web-api:4000"
 
 with st.form("log_workout_form"):
     st.subheader("Workout Information")

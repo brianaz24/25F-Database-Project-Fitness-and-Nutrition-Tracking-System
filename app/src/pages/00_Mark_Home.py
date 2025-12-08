@@ -2,6 +2,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 import streamlit as st
+import requests
 from modules.nav import SideBarLinks
 
 st.set_page_config(layout = 'wide')
@@ -11,6 +12,7 @@ SideBarLinks()
 
 user_id = st.session_state.get('user_id', 1)
 first_name = st.session_state.get('first_name', 'Mark')
+API_BASE = "http://web-api:4000"
 
 st.title(f"Welcome, {st.session_state['first_name']}!")
 st.write('')

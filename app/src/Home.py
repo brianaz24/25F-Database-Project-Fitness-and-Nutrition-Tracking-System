@@ -63,77 +63,74 @@ system_admins = {
     "IT Manager Maria": {"first_name": "Maria", "user_id": 32}
 }
 
-# Create select widgets for each persona
-st.write("### Everyday User")
-selected_everyday_user = st.selectbox(
-    "Select an Everyday User:",
-    ["-- Select User --"] + list(everyday_users.keys()),
-    key="everyday_user_select"
+st.write("### Select Your Role")
+selected_role = st.selectbox(
+    "Choose a role:",
+    ["-- Select Role --", "Everyday User", "Fitness Coach", "Dietitian Data Analyst", "System Administrator"],
+    key="role_select"
 )
 
-st.write("### Fitness Coach")
-selected_coach = st.selectbox(
-    "Select a Fitness Coach:",
-    ["-- Select User --"] + list(fitness_coaches.keys()),
-    key="coach_select"
-)
+selected_user = None
+user_info = None
 
-st.write("### Dietitian Data Analyst")
-selected_dietitian = st.selectbox(
-    "Select a Dietitian:",
-    ["-- Select User --"] + list(dietitians.keys()),
-    key="dietitian_select"
-)
+if selected_role != "-- Select Role --":
+    st.write("---")
+    st.write("### Select a User")
+    
+    if selected_role == "Everyday User":
+        selected_user = st.selectbox(
+            "Select an Everyday User:",
+            ["-- Select User --"] + list(everyday_users.keys()),
+            key="user_select"
+        )
+        if selected_user != "-- Select User --":
+            user_info = everyday_users[selected_user]
+            role_key = 'everyday_user'
+            home_page = 'pages/00_Mark_Home.py'
+    
+    elif selected_role == "Fitness Coach":
+        selected_user = st.selectbox(
+            "Select a Fitness Coach:",
+            ["-- Select User --"] + list(fitness_coaches.keys()),
+            key="user_select"
+        )
+        if selected_user != "-- Select User --":
+            user_info = fitness_coaches[selected_user]
+            role_key = 'fitness_coach'
+            home_page = 'pages/10_Sam_Home.py'
+    
+    elif selected_role == "Dietitian Data Analyst":
+        selected_user = st.selectbox(
+            "Select a Dietitian:",
+            ["-- Select User --"] + list(dietitians.keys()),
+            key="user_select"
+        )
+        if selected_user != "-- Select User --":
+            user_info = dietitians[selected_user]
+            role_key = 'dietitian'
+            home_page = 'pages/20_Jame_Home.py'
+    
+    elif selected_role == "System Administrator":
+        selected_user = st.selectbox(
+            "Select a System Administrator:",
+            ["-- Select User --"] + list(system_admins.keys()),
+            key="user_select"
+        )
+        if selected_user != "-- Select User --":
+            user_info = system_admins[selected_user]
+            role_key = 'administrator'
+            home_page = 'pages/30_Eva_Home.py'
 
-st.write("### System Administrator")
-selected_admin = st.selectbox(
-    "Select a System Administrator:",
-    ["-- Select User --"] + list(system_admins.keys()),
-    key="admin_select"
-)
-
-# Login button
-st.write("---")
-if st.button("Login", type='primary', use_container_width=True):
-    # Check which persona was selected
-    if selected_everyday_user != "-- Select User --":
-        user_info = everyday_users[selected_everyday_user]
+# Login button (only shown after both role and user are selected)
+if selected_role != "-- Select Role --" and selected_user and selected_user != "-- Select User --":
+    st.write("---")
+    if st.button("Login", type='primary', use_container_width=True):
         st.session_state['authenticated'] = True
-        st.session_state['role'] = 'everyday_user'
+        st.session_state['role'] = role_key
         st.session_state['first_name'] = user_info['first_name']
         st.session_state['user_id'] = user_info['user_id']
-        logger.info(f"Logging in as Everyday User: {user_info['first_name']}")
-        st.switch_page('pages/00_Mark_Home.py')
-    
-    elif selected_coach != "-- Select User --":
-        user_info = fitness_coaches[selected_coach]
-        st.session_state['authenticated'] = True
-        st.session_state['role'] = 'fitness_coach'
-        st.session_state['first_name'] = user_info['first_name']
-        st.session_state['user_id'] = user_info['user_id']
-        logger.info(f"Logging in as Fitness Coach: {user_info['first_name']}")
-        st.switch_page('pages/10_Sam_Home.py')
-    
-    elif selected_dietitian != "-- Select User --":
-        user_info = dietitians[selected_dietitian]
-        st.session_state['authenticated'] = True
-        st.session_state['role'] = 'dietitian'
-        st.session_state['first_name'] = user_info['first_name']
-        st.session_state['user_id'] = user_info['user_id']
-        logger.info(f"Logging in as Dietitian: {user_info['first_name']}")
-        st.switch_page('pages/20_Jame_Home.py')
-    
-    elif selected_admin != "-- Select User --":
-        user_info = system_admins[selected_admin]
-        st.session_state['authenticated'] = True
-        st.session_state['role'] = 'administrator'
-        st.session_state['first_name'] = user_info['first_name']
-        st.session_state['user_id'] = user_info['user_id']
-        logger.info(f"Logging in as System Administrator: {user_info['first_name']}")
-        st.switch_page('pages/30_Eva_Home.py')
-    
-    else:
-        st.error("Please select a user from one of the roles above.")
+        logger.info(f"Logging in as {selected_role}: {user_info['first_name']}")
+        st.switch_page(home_page)
 
 
 
