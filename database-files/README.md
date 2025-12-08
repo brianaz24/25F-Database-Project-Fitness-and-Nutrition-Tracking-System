@@ -17,3 +17,32 @@ docker compose down db -v && docker compose up db
 ```
 
 The `-v` flag will also delete the volume associated with MySQL, which is necessary to rerun the sql files. 
+
+For Users entity: 
+User_id 1 - 40 mean Coaches entity
+User_id 41 - 80 mean Coaches entity
+User_id 81 - 120 mean SystemAdministrators
+User_id 121 - 160 mean Clients
+
+Users	160	
+Coaches	40	
+Dietitians	40	
+SystemAdministrators	40	
+Clients	40	
+Foods	40	
+Exercises	40	
+Goals	70	
+Workouts	75	
+MetricLogs	60	
+MealLogs	70	
+MealItems	150	
+Nutrients	75	
+WorkoutPlans	60	
+PlanExercises	150	
+WorkoutLogs	70	
+CalorieLogs	60	
+Comments	60	
+Notifications	70
+SystemAlerts	55	
+BackupRecords	60	
+AuditLog	60	    
