@@ -1,8 +1,28 @@
-# Fall 2025 CS 3200 Project Template
+# Fitness & Nutrition Tracking System
 
-This is a template repo for Dr. Fontenot's Fall 2025 CS 3200 Course Project. 
+A comprehensive web application for tracking fitness activities, nutrition intake, and health goals. The system supports multiple user roles including everyday users, fitness coaches, dietitians, and system administrators, each with role-specific features and dashboards.
 
-It includes most of the infrastructure setup (containers), sample databases, and example UI pages. Explore it fully and ask questions!
+## Project Overview
+
+## Prerequisites
+
+## Team Members
+
+- **Minghui Zhong** 
+- **Hanfu Yao** 
+- **Vineel Bandla** 
+- **Avaneesh Anil** 
+
+
+## Architecture
+
+The application follows a three-tier architecture:
+
+- **Frontend**: Streamlit web application (`./app`)
+- **Backend**: Flask REST API (`./api`)
+- **Database**: MySQL database (`./database-files`)
+
+All components run in Docker containers for easy deployment and development.
 
 ## Prerequisites
 
@@ -22,112 +42,236 @@ It includes most of the infrastructure setup (containers), sample databases, and
      ```
      Note that the `..` means go to the parent folder of the folder you're currently in (which is `api/` after the first command)
 - VSCode with the Python Plugin installed
-  - You may use some other Python/code editor.  However, Course staff will only support VS Code. 
 
+## Quick Start
 
-## Structure of the Repo
+### 1. Clone the Repository
 
-- This repository is organized into five main directories:
-  - `./app` - the Streamlit app
-  - `./api` - the Flask REST API
-  - `./database-files` - SQL scripts to initialize the MySQL database
-  - `./datasets` - folder for storing datasets
+     ```bash
+git clone <repository-url>
+cd 25F-Database-Project-Fitness-and-Nutrition-Tracking-System
+```
 
-- The repo also contains a `docker-compose.yaml` file that is used to set up the Docker containers for the front end app, the REST API, and MySQL database. 
+### 2. Set Up Environment Variables
 
-## Suggestion for Learning the Project Code Base
+The application requires a `.env` file in the `api` directory for database configuration.
 
-If you are not familiar with web app development, this code base might be confusing. But don't worry, we'll get through it together. Here are some suggestions for learning the code base:
+**Create the `.env` file:**
 
-1. Start by exploring the `./app` directory. This is where the Streamlit app is located. The Streamlit app is a Python-based web app that is used to interact with the user. It's a great way to build a simple web app without having to learn a lot of web development.
-1. Next, explore the `./api` directory. This is where the Flask REST API is located. The REST API is used to interact with the database and perform other server-side tasks. You might also consider this the "application logic" or "business logic" layer of your app. 
-1. Finally, explore the `./database-files` directory. This is where the SQL scripts are located that will be used to initialize the MySQL database.
-1. Bonus: If you want to have a totally separate copy of the Template Repo on your laptop that you can use to explore and try things without messing up your team repo, see *Setting Up a Personal Testing Repo (Optional)* section below. 
+     ```bash
+     cd api
+cp .env.template .env  
+```
 
-## Setting Up the Repos
-<details>
-<summary>Setting Up a Personal Testing Repo (Optional)</summary>
+**Required environment variables in `api/.env`:**
 
-### Setting Up A Personal Sandbox Repo (This is Optional)
+```env
+# Database Configuration
+DB_USER=root
+MYSQL_ROOT_PASSWORD=your_secure_password_here
+DB_HOST=db
+DB_PORT=3306
+DB_NAME=fitness_app
 
-**Before you start**: You need to have a GitHub account and a terminal-based git client or GUI Git client such as GitHub Desktop or the Git plugin for VSCode.
+# Flask Secret Key (generate a random string)
+SECRET_KEY=your_secret_key_here
+```
 
-1. Clone this repo to your local machine.
-   1. You can do this by clicking the green "Code" button on the top right of the repo page and copying the URL. Then, in your terminal, run `git clone <URL>`.
-   1. Or, you can use the GitHub Desktop app to clone the repo. See [this page](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop) of the GitHub Desktop Docs for more info. 
-1. Open the repository folder in VSCode.
-1. Set up the `.env` file in the `api` folder based on the `.env.template` file.
-   1. Make a copy of the `.env.template` file and name it `.env`. 
-   1. Open the new `.env` file. 
-   1. On the last line, delete the `<...>` placeholder text, and put a password. Don't reuse any passwords you use for any other services (email, etc.) 
-1. For running the testing containers (for your personal repo), you will tell `docker compose` to use a different configuration file than the typical one.  The one you will use for testing is `sandbox.yaml`.
-   1. `docker compose -f sandbox.yaml up -d` to start all the containers in the background
-   1. `docker compose -f sandbox.yaml down` to shutdown and delete the containers
-   1. `docker compose -f sandbox.yaml up db -d` only start the database container (replace db with api or app for the other two services as needed)
-   1. `docker compose -f sandbox.yaml stop` to "turn off" the containers but not delete them.
-</details>
+**Important Security Notes:**
+- Use a **strong, unique password** for `MYSQL_ROOT_PASSWORD`
+- Generate a **random secret key** for `SECRET_KEY` (you can use: `python -c "import secrets; print(secrets.token_hex(32))"`)
+- **Never commit** the `.env` file to version control
+- The `.env` file should already be in `.gitignore`
 
-### Setting Up Your Team's Repo
+### 3. Start the Application
 
-**Before you start**: As a team, one person needs to assume the role of _Team Project Repo Owner_.
+Start all containers in detached mode:
 
-1. The Team Project Repo Owner needs to **fork** this template repo into their own GitHub account **and give the repo a name consistent with your project's name**. If you're worried that the repo is public, don't. Every team is doing a different project.
-1. In the newly forked team repo, the Team Project Repo Owner should go to the **Settings** tab, choose **Collaborators and Teams** on the left-side panel. Add each of your team members to the repository with Write access.
+```bash
+docker compose up -d
+```
 
-**Remaining Team Members**
+This will start three containers:
+- **web-app** (Streamlit frontend) - Available at `http://localhost:8501`
+- **web-api** (Flask backend) - Available at `http://localhost:4000`
+- **mysql_db** (MySQL database) - Available at `localhost:3200`
 
-1. Each of the other team members will receive an invitation to join.
-1. Once you have accepted the invitation, you should clone the Team's Project Repo to your local machine.
-1. Set up the `.env` file in the `api` folder based on the `.env.template` file.
-1. For running the testing containers (for your team's repo):
-   1. `docker compose up -d` to start all the containers in the background
-   1. `docker compose down` to shutdown and delete the containers
-   1. `docker compose up db -d` only start the database container (replace db with api or app for the other two services as needed)
-   1. `docker compose stop` to "turn off" the containers but not delete them.
+### 4. Access the Application
 
-**Note:** You can also use the Docker Desktop GUI to start and stop the containers after the first initial run.
+Open your web browser and navigate to:
+```
+http://localhost:8501
+```
 
-## Important Tips
+You'll see the login page where you can select a role and user to begin using the application.
 
-1. In general, any changes you make to the api code base (REST API) or the Streamlit app code should be *hot reloaded* when the files are saved.  This means that the changes should be immediately available.  
-   1. Don't forget to hit click the **Always Rerun** button in the browser tab of the Streamlit app for it to reload with changes. 
-   1. Sometimes, a bug in the code will shut the containers down.  If this is the case, try and fix the bug in the code.  Then you can restart the `web-app` container in Docker Desktop or restart all the containers with `docker compose restart` (no *-d* flag). 
-1. The MySQL Container is different. 
-   1. When the MySQL container is ***created*** the first time, it will execute any `.sql` files in the `./database-files` folder. **Important:** it will execute them in alphabetical order.  
-   1. The MySQL Container's log files are your friend! Remember, you can access them in Docker Desktop by going to the MySQL Container, and clicking on the `Logs` tab.  If there are errors in your .sql files as it is trying to run them, there will be a message in the logs. You can search 🔍 for `Error` to find them more quickly. 
-   1. If you need to update anything in any of your SQL files, you **MUST** recreate the MySQL container (rather than just stopping and restarting it).  You can recreate the MySQL container by using the following command: `docker compose down db -v && docker compose up db -d`. 
-      1. `docker compose down db -v` stops and deletes the MySQL container and the volume attached to it. 
-      1. `docker compose up db -d` will create a new db container and re-run the files in the `database-files` folder. 
+## Project Structure
 
-## Handling User Role Access and Control
+```
+.
+├── app/                          # Streamlit frontend application
+│   ├── src/
+│   │   ├── Home.py              # Main entry point
+│   │   ├── modules/
+│   │   │   └── nav.py           # Navigation and RBAC
+│   │   └── pages/                # Application pages
+│   │       ├── 00_Mark_Home.py  # Everyday user pages (00-04)
+│   │       ├── 10_Sam_HomePage.py # Coach pages (10-13)
+│   │       ├── 14_James_Home.py  # Dietitian pages (14-17)
+│   │       └── 20_Admin_Home.py   # Admin pages (20-24)
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── api/                          # Flask REST API backend
+│   ├── backend/
+│   │   ├── rest_entry.py        # Flask app initialization
+│   │   ├── meals/               # Meal routes
+│   │   ├── workouts/            # Workout routes
+│   │   ├── clients/            # Client routes
+│   │   ├── plans/              # Workout plan routes
+│   │   ├── admin/              # Admin routes
+│   │   └── db_connection/      # Database connection
+│   ├── backend_app.py          # API entry point
+│   ├── .env                    # Environment variables (create this)
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── database-files/              # SQL initialization scripts
+│   ├── 00_fitness_db.sql       # Main database schema
+│   └── backup_sql/             # Backup SQL files
+│
+├── docker-compose.yaml          # Docker Compose configuration
+└── README.md                    # This file
+```
 
-In most applications, when a user logs in, they assume a particular role in the app. For instance, when one logs in to a stock price prediction app, they may be a single investor, a portfolio manager, or a corporate executive (of a publicly traded company). Each of those _roles_ will likely present some similar features as well as some different features when compared to the other roles. So, how do you accomplish this in Streamlit? This is sometimes called Role-based Access Control, or **RBAC** for short.
+## User Roles & Features
 
-The code in this project demonstrates how to implement a simple RBAC system in Streamlit but without actually using user authentication (usernames and passwords). The Streamlit pages from the original template repo are split up among 3 roles - Political Strategist, USAID Worker, and a System Administrator role (this is used for any sort of system tasks such as re-training ML model, etc.). It also demonstrates how to deploy an ML model.
+### Everyday User (Mark)
+- **Log Meals**: Track daily calorie intake
+- **Record Workouts**: Log exercise sessions with duration and calories burned
+- **View Progress**: Edit and delete meal/workout records
+- **Manage Goals**: Create, edit, and track fitness/nutrition goals
 
-Wrapping your head around this will take a little time and exploration of this code base. Some highlights are below.
+### Fitness Coach (Sam)
+- **Client Progress**: Monitor client workouts and nutrition
+- **Manage Plans**: Create and assign personalized workout plans
+- **Notifications**: Send alerts and track missed workouts
 
-### Getting Started with the RBAC
+### Dietitian (James)
+- **Client Meals**: Review and comment on client meal logs
+- **Analytics**: View nutrition trends and patterns
+- **Meal Plans**: Create personalized meal plans with recommendations
 
-1. We need to turn off the standard panel of links on the left side of the Streamlit app. This is done through the `app/src/.streamlit/config.toml` file. So check that out. We are turning it off so we can control directly what links are shown.
-1. Then I created a new python module in `app/src/modules/nav.py`. When you look at the file, you will se that there are functions for basically each page of the application. The `st.sidebar.page_link(...)` adds a single link to the sidebar. We have a separate function for each page so that we can organize the links/pages by role.
-1. Next, check out the `app/src/Home.py` file. Notice that there are 3 buttons added to the page and when one is clicked, it redirects via `st.switch_page(...)` to that Roles Home page in `app/src/pages`. But before the redirect, I set a few different variables in the Streamlit `session_state` object to track role, first name of the user, and that the user is now authenticated.
-1. Notice near the top of `app/src/Home.py` and all other pages, there is a call to `SideBarLinks(...)` from the `app/src/nav.py` module. This is the function that will use the role set in `session_state` to determine what links to show the user in the sidebar.
-1. The pages are organized by Role. Pages that start with a `0` are related to the _Political Strategist_ role. Pages that start with a `1` are related to the _USAID worker_ role. And, pages that start with a `2` are related to The _System Administrator_ role.
+### System Administrator (Eva)
+- **User Management**: Add, view, and manage system users
+- **System Monitoring**: Track API health and ML models
+- **Database Management**: Backup, restore, and cleanup operations
+- **Audit & Security**: Review audit logs and security events
 
+## Role-Based Access Control (RBAC)
 
-## (Completely Optional) Incorporating ML Models into your Project
+The application implements RBAC through Streamlit's session state:
 
-_Note_: This project only contains the infrastructure for a hypothetical ML model.
+1. **Login**: Users select their role and user profile on the home page
+2. **Session State**: Role and user info stored in `st.session_state`
+3. **Navigation**: Sidebar links dynamically generated based on role (`app/src/modules/nav.py`)
+4. **Page Access**: Each page checks authentication before displaying content
 
-1. Collect and preprocess necessary datasets for your ML models.
-1. Build, train, and test your ML model in a Jupyter Notebook.
-   - You can store your datasets in the `datasets` folder. You can also store your Jupyter Notebook in the `ml-src` folder.
-1. Once your team is happy with the model's performance, convert your Jupyter Notebook code for the ML model to a pure Python script.
-   - You can include the `training` and `testing` functionality as well as the `prediction` functionality.
-   - Develop and test this pure Python script first in the `ml-src` folder.
-   - You may or may not need to include data cleaning, though.
-1. Review the `api/backend/ml_models` module. In this folder,
-   - We've put a sample (read _fake_) ML model in the `model01.py` file. The `predict` function will be called by the Flask REST API to perform '_real-time_' prediction based on model parameter values that are stored in the database. **Important**: you would never want to hard code the model parameter weights directly in the prediction function.
-1. The prediction route for the REST API is in `api/backend/customers/customer_routes.py`. Basically, it accepts two URL parameters and passes them to the `prediction` function in the `ml_models` module. The `prediction` route/function packages up the value(s) it receives from the model's `predict` function and send its back to Streamlit as JSON.
-1. Back in streamlit, check out `app/src/pages/11_Prediction.py`. Here, I create two numeric input fields. When the button is pressed, it makes a request to the REST API URL `/c/prediction/.../...` function and passes the values from the two inputs as URL parameters. It gets back the results from the route and displays them. Nothing fancy here
+## Database Schema
+
+The database includes the following main tables:
+
+- **Users**: User accounts and profiles
+- **Meals**: Meal logs with calories and timestamps
+- **Workouts**: Workout logs with type, duration, and calories burned
+- **Goals**: User fitness and nutrition goals
+- **WorkoutPlans**: Coach-created workout plans
+- **PlanExercises**: Exercises within workout plans
+- **Comments**: Coach and dietitian comments on client data
+- **Notifications**: System alerts and coach notifications
+- **AuditLog**: System audit trail
+
+See `database-files/00_fitness_db.sql` for the complete schema.
+
+## API Endpoints
+
+### Meals
+- `GET /meals` - Get all meals
+- `GET /meals/<id>` - Get specific meal
+- `POST /meals` - Create new meal
+- `PUT /meals/<id>` - Update meal
+- `DELETE /meals/<id>` - Delete meal
+- `GET /clients/<user_id>/meals` - Get user's meals
+
+### Workouts
+- `GET /workouts` - Get all workouts
+- `GET /workouts/<id>` - Get specific workout
+- `POST /workouts` - Create new workout
+- `PUT /workouts/<id>` - Update workout
+- `DELETE /workouts/<id>` - Delete workout
+- `GET /clients/<user_id>/workouts` - Get user's workouts
+
+### Goals
+- `GET /clients/goals?user_id=<id>` - Get user's goals
+- `POST /clients/goals` - Create new goal
+- `PUT /clients/goals/<id>` - Update goal
+- `DELETE /clients/goals/<id>` - Delete goal
+
+### Plans
+- `GET /plans` - Get all workout plans
+- `POST /plans` - Create new plan
+- `DELETE /plans/<id>` - Delete plan
+
+### Admin
+- `GET /admin/users` - Get all users
+- `POST /admin/users` - Create new user
+- `DELETE /admin/users/<id>` - Delete user
+- `GET /admin/audit-log` - Get audit logs
+
+*See API code in `api/backend/` for complete endpoint documentation.*
+
+## Troubleshooting
+
+### Containers won't start
+- Check Docker Desktop is running
+- Verify `.env` file exists in `api/` directory
+- Check logs: `docker compose logs`
+
+### Database connection errors
+- Verify `.env` file has correct database credentials
+- Ensure database container is running: `docker compose ps`
+- Check database logs: `docker compose logs db`
+
+### SQL initialization errors
+- Check database logs for SQL syntax errors
+- Ensure SQL files in `database-files/` are valid
+- Recreate database: `docker compose down db -v && docker compose up db -d`
+
+### Frontend not updating
+- Click "Always Rerun" in Streamlit browser tab
+- Check if containers are running: `docker compose ps`
+- View frontend logs: `docker compose logs app`
+
+### API not responding
+- Verify API container is running
+- Check API logs: `docker compose logs api`
+- Test API directly: `curl http://localhost:4000/`
+
+## Development Notes
+
+### Hot Reloading
+- **Streamlit**: Changes to `.py` files automatically reload (click "Always Rerun" in browser)
+- **Flask**: Changes to API code automatically reload
+- **Database**: SQL changes require container recreation (see Database Management section)
+
+### Code Organization
+- **Frontend pages**: Organized by role prefix (00-04: User, 10-13: Coach, 14-17: Dietitian, 20-24: Admin)
+- **API routes**: Organized by feature in `api/backend/` subdirectories
+- **Database**: SQL files executed alphabetically on container creation
+
+### Adding New Features
+1. **New API endpoint**: Add route in appropriate `api/backend/` subdirectory
+2. **New frontend page**: Create page in `app/src/pages/` with appropriate prefix
+3. **Update navigation**: Add link in `app/src/modules/nav.py`
+4. **Database changes**: Add SQL to `database-files/` and recreate container
+

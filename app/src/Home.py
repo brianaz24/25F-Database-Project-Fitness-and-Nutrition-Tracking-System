@@ -97,7 +97,7 @@ if selected_role != "-- Select Role --":
         if selected_user != "-- Select User --":
             user_info = fitness_coaches[selected_user]
             role_key = 'fitness_coach'
-            home_page = 'pages/10_Sam_HomePage.py'
+            home_page = 'pages/05_Sam_HomePage.py'
     
     elif selected_role == "Dietitian Data Analyst":
         selected_user = st.selectbox(
@@ -108,7 +108,7 @@ if selected_role != "-- Select Role --":
         if selected_user != "-- Select User --":
             user_info = dietitians[selected_user]
             role_key = 'dietitian'
-            home_page = 'pages/14_James_Home.py'
+            home_page = 'pages/09_James_Home.py'
     
     elif selected_role == "System Administrator":
         selected_user = st.selectbox(
@@ -119,7 +119,7 @@ if selected_role != "-- Select Role --":
         if selected_user != "-- Select User --":
             user_info = system_admins[selected_user]
             role_key = 'administrator'
-            home_page = 'pages/20_Admin_Home.py'
+            home_page = 'pages/13_Eva_Home.py'
 
 # Login button (only shown after both role and user are selected)
 if selected_role != "-- Select Role --" and selected_user and selected_user != "-- Select User --":
