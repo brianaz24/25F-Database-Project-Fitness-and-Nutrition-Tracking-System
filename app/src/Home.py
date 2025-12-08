@@ -34,46 +34,106 @@ SideBarLinks(show_home=True)
 
 # set the title of the page and provide a simple prompt. 
 logger.info("Loading the Home page of the app")
-st.title('CS 3200 Project Template')
+st.title('Fitness & Nutrition Tracking System')
 st.write('\n\n')
-# st.write('### Overview:')
-# st.write('\n')
-st.write('#### HI! As which user would you like to log in?')
+st.write('#### Welcome! Please select your role and user to log in.')
 
-# For each of the user personas for which we are implementing
-# functionality, we put a button on the screen that the user 
-# can click to MIMIC logging in as that mock user. 
+# Define mock users for each persona
+everyday_users = {
+    "Mark": {"first_name": "Mark", "user_id": 1},
+    "Sarah": {"first_name": "Sarah", "user_id": 2},
+    "Alex": {"first_name": "Alex", "user_id": 3}
+}
 
-if st.button("Act as John, a Political Strategy Advisor", 
-            type = 'primary', 
-            use_container_width=True):
-    # when user clicks the button, they are now considered authenticated
-    st.session_state['authenticated'] = True
-    # we set the role of the current user
-    st.session_state['role'] = 'pol_strat_advisor'
-    # we add the first name of the user (so it can be displayed on 
-    # subsequent pages). 
-    st.session_state['first_name'] = 'John'
-    # finally, we ask streamlit to switch to another page, in this case, the 
-    # landing page for this particular user type
-    logger.info("Logging in as Political Strategy Advisor Persona")
-    st.switch_page('pages/00_Pol_Strat_Home.py')
+fitness_coaches = {
+    "Sam": {"first_name": "Sam", "user_id": 10},
+    "Coach Mike": {"first_name": "Mike", "user_id": 11},
+    "Trainer Lisa": {"first_name": "Lisa", "user_id": 12}
+}
 
-if st.button('Act as Mohammad, an USAID worker', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = 'Mohammad'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
+dietitians = {
+    "Jame": {"first_name": "Jame", "user_id": 20},
+    "Dr. Smith": {"first_name": "Smith", "user_id": 21},
+    "Nutritionist Emma": {"first_name": "Emma", "user_id": 22}
+}
 
-if st.button('Act as System Administrator', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administrator'
-    st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+system_admins = {
+    "Eva": {"first_name": "Eva", "user_id": 30},
+    "Admin John": {"first_name": "John", "user_id": 31},
+    "IT Manager Maria": {"first_name": "Maria", "user_id": 32}
+}
+
+# Create select widgets for each persona
+st.write("### Everyday User")
+selected_everyday_user = st.selectbox(
+    "Select an Everyday User:",
+    ["-- Select User --"] + list(everyday_users.keys()),
+    key="everyday_user_select"
+)
+
+st.write("### Fitness Coach")
+selected_coach = st.selectbox(
+    "Select a Fitness Coach:",
+    ["-- Select User --"] + list(fitness_coaches.keys()),
+    key="coach_select"
+)
+
+st.write("### Dietitian Data Analyst")
+selected_dietitian = st.selectbox(
+    "Select a Dietitian:",
+    ["-- Select User --"] + list(dietitians.keys()),
+    key="dietitian_select"
+)
+
+st.write("### System Administrator")
+selected_admin = st.selectbox(
+    "Select a System Administrator:",
+    ["-- Select User --"] + list(system_admins.keys()),
+    key="admin_select"
+)
+
+# Login button
+st.write("---")
+if st.button("Login", type='primary', use_container_width=True):
+    # Check which persona was selected
+    if selected_everyday_user != "-- Select User --":
+        user_info = everyday_users[selected_everyday_user]
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'everyday_user'
+        st.session_state['first_name'] = user_info['first_name']
+        st.session_state['user_id'] = user_info['user_id']
+        logger.info(f"Logging in as Everyday User: {user_info['first_name']}")
+        st.switch_page('pages/00_Mark_Home.py')
+    
+    elif selected_coach != "-- Select User --":
+        user_info = fitness_coaches[selected_coach]
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'fitness_coach'
+        st.session_state['first_name'] = user_info['first_name']
+        st.session_state['user_id'] = user_info['user_id']
+        logger.info(f"Logging in as Fitness Coach: {user_info['first_name']}")
+        st.switch_page('pages/10_Sam_Home.py')
+    
+    elif selected_dietitian != "-- Select User --":
+        user_info = dietitians[selected_dietitian]
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'dietitian'
+        st.session_state['first_name'] = user_info['first_name']
+        st.session_state['user_id'] = user_info['user_id']
+        logger.info(f"Logging in as Dietitian: {user_info['first_name']}")
+        st.switch_page('pages/20_Jame_Home.py')
+    
+    elif selected_admin != "-- Select User --":
+        user_info = system_admins[selected_admin]
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'administrator'
+        st.session_state['first_name'] = user_info['first_name']
+        st.session_state['user_id'] = user_info['user_id']
+        logger.info(f"Logging in as System Administrator: {user_info['first_name']}")
+        st.switch_page('pages/30_Eva_Home.py')
+    
+    else:
+        st.error("Please select a user from one of the roles above.")
 
 
 

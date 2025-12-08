@@ -14,18 +14,18 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
-    st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
-    )
+#### ------------------------ Mark (Everyday User) ------------------------
+def MarkHomeNav():
+    st.sidebar.page_link("pages/00_Mark_Home.py", label="My Dashboard", icon="🏠")
 
+def MarkLogMealNav():
+    st.sidebar.page_link("pages/01_Mark_Log_Meal.py", label="Log Meal", icon="🍽️")
 
-def WorldBankVizNav():
-    st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
-    )
+def MarkLogWorkoutNav():
+    st.sidebar.page_link("pages/02_Mark_Log_Workout.py", label="Log Workout", icon="💪")
 
+def MarkViewProgressNav():
+    st.sidebar.page_link("pages/03_Mark_View_Progress.py", label="View Progress", icon="📊")
 
 def MapDemoNav():
     st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
