@@ -11,7 +11,7 @@ def HomeNav():
 
 
 def AboutPageNav():
-    st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
+    st.sidebar.page_link("pages/18_About.py", label="About", icon="🧠")
 
 
 #### ------------------------ Mark (Everyday User) ------------------------
@@ -26,6 +26,9 @@ def MarkLogWorkoutNav():
 
 def MarkViewProgressNav():
     st.sidebar.page_link("pages/03_Mark_View_Progress.py", label="View Progress", icon="📊")
+
+def MarkGoalsNav():
+    st.sidebar.page_link("pages/04_Mark_Goals.py", label="Manage Goals", icon="🎯")
 
 def MapDemoNav():
     st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
@@ -63,10 +66,11 @@ def ClassificationNav():
 
 #### ------------------------ System Admin Role ------------------------
 def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
-    st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
-    )
+    st.sidebar.page_link("pages/13_Eva_Home.py", label="Admin Dashboard", icon="🏠")
+    st.sidebar.page_link("pages/14_Eva_Users.py", label="User Management", icon="👥")
+    st.sidebar.page_link("pages/15_Eva_Audit.py", label="Audit & Security", icon="🔒")
+    st.sidebar.page_link("pages/16_Eva_Database.py", label="Database", icon="💾")
+    st.sidebar.page_link("pages/17_ML_Model_Mgmt.py", label="System Monitoring", icon="📊")
 
 
 # --------------------------------Links Function -----------------------------------------------
@@ -96,18 +100,21 @@ def SideBarLinks(show_home=False):
             MarkLogMealNav()
             MarkLogWorkoutNav()
             MarkViewProgressNav()
+            MarkGoalsNav()
 
         # If the user is a fitness coach (Sam), show their pages
         if st.session_state["role"] == "fitness_coach":
-            st.sidebar.page_link("pages/10_Sam_HomePage.py", label="Coach Dashboard", icon="🏠")
-            st.sidebar.page_link("pages/11_Sam_Client_Progress.py", label="Client Progress", icon="📊")
-            st.sidebar.page_link("pages/12_Sam_Manage_Plans.py", label="Manage Plans", icon="📋")
+            st.sidebar.page_link("pages/05_Sam_HomePage.py", label="Coach Dashboard", icon="🏠")
+            st.sidebar.page_link("pages/06_Sam_Client_Progress.py", label="Client Progress", icon="📊")
+            st.sidebar.page_link("pages/07_Sam_Manage_Plans.py", label="Manage Plans", icon="📋")
+            st.sidebar.page_link("pages/08_Sam_View_Alert.py", label="Notifications", icon="🔔")
 
         # If the user is a dietitian (James), show their pages
         if st.session_state["role"] == "dietitian":
-            st.sidebar.page_link("pages/14_James_Home.py", label="Dietitian Dashboard", icon="🏠")
-            st.sidebar.page_link("pages/15_James_Client_Meals.py", label="Client Meals", icon="🍽️")
-            st.sidebar.page_link("pages/16_James_Analytics.py", label="Analytics", icon="📈")
+            st.sidebar.page_link("pages/09_James_Home.py", label="Dietitian Dashboard", icon="🏠")
+            st.sidebar.page_link("pages/10_James_Client_Meals.py", label="Client Meals", icon="🍽️")
+            st.sidebar.page_link("pages/11_James_Analytics.py", label="Analytics", icon="📈")
+            st.sidebar.page_link("pages/12_James_Meal_Plans.py", label="Meal Plans", icon="📝")
 
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
