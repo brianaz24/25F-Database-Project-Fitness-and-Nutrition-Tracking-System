@@ -34,34 +34,32 @@ def MapDemoNav():
     st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
+#### ------------------------ Sam (Fitness Coach) ------------------------
+def SamHomeNav():
+    st.sidebar.page_link("pages/05_Sam_HomePage.py", label="Coach Dashboard", icon="🏠")
 
-def usaidWorkerHomeNav():
-    st.sidebar.page_link(
-      "pages/10_USAID_Worker_Home.py", label="USAID Worker Home", icon="🏠"
-    )
+def SamClientProgressNav():
+    st.sidebar.page_link("pages/06_Sam_Client_Progress.py", label="Client Progress", icon="📊")
 
-def NgoDirectoryNav():
-    st.sidebar.page_link("pages/14_NGO_Directory.py", label="NGO Directory", icon="📁")
+def SamManagePlansNav():
+    st.sidebar.page_link("pages/07_Sam_Manage_Plans.py", label="Manage Plans", icon="📋")
 
-def AddNgoNav():
-    st.sidebar.page_link("pages/15_Add_NGO.py", label="Add New NGO", icon="➕")
-
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-def PredictionNav():
-    st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
-    )
-
-def ClassificationNav():
-    st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
-    )
+def SamNotificationsNav():
+    st.sidebar.page_link("pages/08_Sam_View_Alert.py", label="Notifications", icon="🔔")
 
 
+#### ------------------------ James (Dietitian) ------------------------
+def JamesHomeNav():
+    st.sidebar.page_link("pages/09_James_Home.py", label="Dietitian Dashboard", icon="🏠")
 
+def JamesClientMealsNav():
+    st.sidebar.page_link("pages/10_James_Client_Meals.py", label="Client Meals", icon="🍽️")
+
+def JamesAnalyticsNav():
+    st.sidebar.page_link("pages/11_James_Analytics.py", label="Analytics", icon="📈")
+
+def JamesMealPlansNav():
+    st.sidebar.page_link("pages/12_James_Meal_Plans.py", label="Meal Plans", icon="📝")
 
 
 #### ------------------------ System Admin Role ------------------------
@@ -104,17 +102,17 @@ def SideBarLinks(show_home=False):
 
         # If the user is a fitness coach (Sam), show their pages
         if st.session_state["role"] == "fitness_coach":
-            st.sidebar.page_link("pages/05_Sam_HomePage.py", label="Coach Dashboard", icon="🏠")
-            st.sidebar.page_link("pages/06_Sam_Client_Progress.py", label="Client Progress", icon="📊")
-            st.sidebar.page_link("pages/07_Sam_Manage_Plans.py", label="Manage Plans", icon="📋")
-            st.sidebar.page_link("pages/08_Sam_View_Alert.py", label="Notifications", icon="🔔")
+            SamHomeNav()
+            SamClientProgressNav()
+            SamManagePlansNav()
+            SamNotificationsNav()
 
         # If the user is a dietitian (James), show their pages
         if st.session_state["role"] == "dietitian":
-            st.sidebar.page_link("pages/09_James_Home.py", label="Dietitian Dashboard", icon="🏠")
-            st.sidebar.page_link("pages/10_James_Client_Meals.py", label="Client Meals", icon="🍽️")
-            st.sidebar.page_link("pages/11_James_Analytics.py", label="Analytics", icon="📈")
-            st.sidebar.page_link("pages/12_James_Meal_Plans.py", label="Meal Plans", icon="📝")
+            JamesHomeNav()
+            JamesClientMealsNav()
+            JamesAnalyticsNav()
+            JamesMealPlansNav()
 
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
