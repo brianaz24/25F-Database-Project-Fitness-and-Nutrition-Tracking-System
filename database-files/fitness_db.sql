@@ -138,6 +138,51 @@ PRIMARY KEY (meal_id, item_num),
 FOREIGN KEY (meal_id) REFERENCES MealLogs(meal_id),
 FOREIGN KEY (food_id) REFERENCES Foods(food_id)
 );
+
+-----------------------------------------------------
+-- Meals
+-----------------------------------------------------
+DROP TABLE IF EXISTS Meals;
+CREATE TABLE IF NOT EXISTS Meals (
+    Meal_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Meal_Name VARCHAR(255) NOT NULL,
+    Calories INT NOT NULL,
+    Meal_Date DATE,
+    Meal_Time TIME,
+    Notes TEXT,
+    FOREIGN KEY (User_ID) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-----------------------------------------------------
+-- Meal Commments
+-----------------------------------------------------
+DROP TABLE IF EXISTS Meal_Comments;
+CREATE TABLE IF NOT EXISTS Meal_Comments (
+    Comment_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Meal_ID INT NOT NULL,
+    Dietitian_ID INT NOT NULL,
+    Comment_Text TEXT NOT NULL,
+    Comment_Date DATE,
+    FOREIGN KEY (Meal_ID) REFERENCES Meals(Meal_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Dietitian_ID) REFERENCES Dietitians(dietitian_id) ON DELETE CASCADE
+);
+
+-----------------------------------------------------
+-- Workouts
+-----------------------------------------------------
+DROP TABLE IF EXISTS Workouts;
+CREATE TABLE IF NOT EXISTS Workouts (
+    Workout_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT NOT NULL,
+    Workout_Date DATE NOT NULL,
+    Workout_Type VARCHAR(100),
+    Duration_Minutes INT,
+    Calories_Burned INT,
+    Notes TEXT,
+    FOREIGN KEY (User_ID) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
 -----------------------------------------------------
 -- Nutrients
 -----------------------------------------------------
